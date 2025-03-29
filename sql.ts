@@ -6,14 +6,28 @@ CREATE TABLE IF NOT EXISTS item (
     listId TEXT NOT NULL,
     name TEXT NOT NULL,
     aisle TEXT NOT NULL,
-    imgSrc TEXT NOT NULL
+    imgSrc TEXT NOT NULL,
+    quantity INTEGER NOT NULL,
+    isPicked INTEGER NOT NULL
 );
 `;
 
 export const INSERT_ITEM = `
 INSERT INTO item (
-  id, listId, name, aisle, imgSrc
+  id, listId, name, aisle, imgSrc, quantity, isPicked
 ) VALUES (
-  $id, $listId, $name, $aisle, $imgSrc
+  $id, $listId, $name, $aisle, $imgSrc, $quantity, $isPicked
 ) RETURNING *;
+`;
+
+export const COMPLETE_ITEM = `
+UPDATE item
+SET isPicked = TRUE
+WHERE id = $id;
+`;
+
+export const SELECT_LIST = `
+SELECT * FROM item
+WHERE listId = $listId 
+ORDER BY aisle;
 `;

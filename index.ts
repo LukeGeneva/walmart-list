@@ -1,45 +1,70 @@
-import { Database } from 'bun:sqlite';
-import { INIT_SQL, INSERT_ITEM } from './sql';
+import { INIT_SQL, SELECT_LIST } from './sql';
+import { db, viewListItem, addItemToList } from './composition-root';
+import { presentItem } from './view-item-presenter';
 
-const headers = { 'Access-Control-Allow-Origin': 'https://www.walmart.com' };
-
-const db = new Database(':memory:');
 db.run(INIT_SQL);
 
 Bun.serve({
   port: 3000,
   routes: {
+    '/list/:id': async (req) => {
+      const list = db
+        .query(SELECT_LIST)
+        .all({ $listId: req.params.id }) as any[];
+      const firstItem = list[0];
+      const url = `/list/${firstItem.listId}/${firstItem.id}`;
+      return Response.redirect(url);
+    },
+    '/list/:listId/:itemId': async (req) => {
+      const { listId, itemId } = req.params;
+      const output = viewListItem.execute({ listId, itemId });
+      const html = presentItem(output);
+      return new Response(html, { headers: { 'Content-Type': 'text/html' } });
+    },
     '/list': {
       POST: async (req) => {
         const body = await req.json();
         const isValid = validate(body);
-        if (!isValid) return new Response(null, { status: 400, headers });
+        if (!isValid)
+          return new Response(null, {
+            status: 400,
+            headers: {
+              'Access-Control-Allow-Origin': 'https://www.walmart.com',
+            },
+          });
 
-        const listId = body.listId ?? newId();
-        const { name, aisle, imgSrc } = body;
-        const args = {
-          $id: newId(),
-          $listId: listId,
-          $name: name,
-          $aisle: aisle,
-          $imgSrc: imgSrc,
-        };
-        const [item] = db.query(INSERT_ITEM).all(args);
-        return Response.json(item, { headers });
+        const output = addItemToList.execute({
+          listId: body.listId ?? null,
+          name: body.name,
+          aisle: body.aisle,
+          imgSrc: body.imgSrc,
+          quantity: body.quantity,
+        });
+
+        return Response.json(output, {
+          headers: {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': 'https://www.walmart.com',
+          },
+        });
       },
     },
+    '/styles.css': new Response(await Bun.file('./public/styles.css').bytes(), {
+      headers: {
+        'Content-Type': 'text/css',
+      },
+    }),
   },
 });
 
+console.log('Server started on port 3000...');
+
 function validate(body: any) {
-  const { listId, name, aisle, imgSrc } = body;
+  const { listId, name, aisle, imgSrc, quantity } = body;
   if (!listId && listId !== null) return false;
   if (!name) return false;
   if (!aisle) return false;
   if (!imgSrc) return false;
+  if (quantity <= 0) return false;
   return true;
-}
-
-function newId() {
-  return Bun.randomUUIDv7();
 }
