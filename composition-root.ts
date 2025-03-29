@@ -3,7 +3,7 @@ import { ListRepository } from './ListRepository';
 import { ViewListItem } from './use-cases/ViewListItem';
 import { AddItemToList } from './use-cases/AddItemToList';
 
-export const db = new Database('./db.sqlite');
+export const db = new Database(process.env.WALMART_LIST_DB_PATH);
 
 export const listRepository = new ListRepository(db);
 

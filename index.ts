@@ -2,10 +2,12 @@ import { INIT_SQL, SELECT_LIST } from './sql';
 import { db, viewListItem, addItemToList } from './composition-root';
 import { presentItem } from './view-item-presenter';
 
+const port = Number.parseInt(process.env.WALMART_LIST_PORT ?? '3000', 10);
+
 db.run(INIT_SQL);
 
 Bun.serve({
-  port: 3000,
+  port,
   routes: {
     '/list/:id': async (req) => {
       const list = db
@@ -57,7 +59,7 @@ Bun.serve({
   },
 });
 
-console.log('Server started on port 3000...');
+console.log(`Server started on port ${port}...`);
 
 function validate(body: any) {
   const { listId, name, aisle, imgSrc, quantity } = body;
