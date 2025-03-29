@@ -1,8 +1,10 @@
+import path from 'path';
 import { INIT_SQL, SELECT_LIST } from './sql';
 import { db, viewListItem, addItemToList } from './composition-root';
 import { presentItem } from './view-item-presenter';
 
 const port = Number.parseInt(process.env.WALMART_LIST_PORT ?? '3000', 10);
+const styles = path.join(import.meta.dir, 'public/styles.css');
 
 db.run(INIT_SQL);
 
@@ -54,7 +56,7 @@ Bun.serve({
         });
       },
     },
-    '/styles.css': new Response(await Bun.file('./public/styles.css').bytes(), {
+    '/styles.css': new Response(await Bun.file(styles).bytes(), {
       headers: {
         'Content-Type': 'text/css',
       },
