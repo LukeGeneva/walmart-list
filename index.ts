@@ -9,6 +9,9 @@ db.run(INIT_SQL);
 Bun.serve({
   port,
   routes: {
+    '/health': () => {
+      return new Response(null, { status: 200 });
+    },
     '/list/:id': async (req) => {
       const list = db
         .query(SELECT_LIST)
