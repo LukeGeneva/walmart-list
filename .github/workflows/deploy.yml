@@ -38,8 +38,10 @@ jobs:
 
       - name: Install dependencies
         run: |
+          export PATH=${{ secrets.BUN_PATH }}:$PATH
           ssh ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }} "cd ~/projects/walmart-list && bun install"
 
       - name: Restart application
         run: |
+          export PATH=${{ secrets.BUN_PATH }}:$PATH
           ssh ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }} "bun run start || pm2 start ~/projects/walmart-list/index.js --name 'walmart-list'"
