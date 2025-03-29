@@ -1,15 +1,13 @@
 module.exports = {
-  apps: [
-    {
-      name: 'walmart-list',
-      script: 'bun',
-      args: 'run index.ts',
-      cwd: '~/projects/walmart-list',
-      interpreter: 'none', 
-      env: {
-        NODE_ENV: 'production',
-        PORT: 3004,
-      },
-    },
-  ],
+  name: 'walmart-list',
+  script: 'index.ts',
+  cwd: process.env.WALMART_LIST_PATH,
+  interpreter: 'bun',
+  env: {
+    NODE_ENV: 'production',
+    WALMART_LIST_PATH: process.env.WALMART_LIST_PATH,
+    WALMART_LIST_PORT: process.env.WALMART_LIST_PORT,
+    WALMART_LIST_DB_PATH: process.env.WALMART_LIST_DB_PATH
+  },
 };
+
