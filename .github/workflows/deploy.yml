@@ -38,8 +38,8 @@ jobs:
 
       - name: Install dependencies
         run: |
-          ssh ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }} "cd ~/projects/walmart-list && export PATH=\$PATH:${{ secrets.BUN_PATH }}:${{ secrets.PM2_PATH }} && bun install"
+          ssh ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }} "source /etc/environment && cd ~/projects/walmart-list && export PATH=\$PATH:${{ secrets.BUN_PATH }}:${{ secrets.PM2_PATH }} && bun install"
 
       - name: Restart application
         run: |
-          ssh ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }} "cd ~/projects/walmart-list && export PATH=\$PATH:${{ secrets.BUN_PATH }}:${{ secrets.PM2_PATH }} && pm2 startOrRestart pm2.config.cjs"
+          ssh ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }} "source /etc/environment && cd ~/projects/walmart-list && export PATH=\$PATH:${{ secrets.BUN_PATH }}:${{ secrets.PM2_PATH }} && pm2 startOrRestart pm2.config.cjs"
