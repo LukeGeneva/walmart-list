@@ -1,7 +1,8 @@
+import path from 'path';
 import { dispense } from 'nutrimatic-html-dispenser';
-import type { ViewListItemOutput } from './ViewListItemUseCase';
+import type { ViewListItemOutput } from './use-cases/ViewListItem';
 
-const VIEW = './views/item.html';
+const VIEW = path.join(import.meta.dir, 'views/item.html');
 
 export function presentItem(data: ViewListItemOutput) {
   const { listId } = data.item;
