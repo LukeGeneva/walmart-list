@@ -1,11 +1,11 @@
 {{ import layout.html }}
-<div class="container">
-  <div class="aisle">Aisle {{ aisle }}</div>
-  <h1 class="product-name">{{ name }}</h1>
-  <img class="product-image" src="{{ imgSrc }}" alt="{{ name }}" />
-  <div class="quantity">Quantity: {{ quantity }}</div>
-  <div class="navigation">
+<div class="h-full flex flex-col gap-4 justify-center items-center">
+  <h1>Aisle {{ aisle }}</h1>
+  <h2>{{ name }}</h2>
+  <div class="flex justify-center items-center">
     <a href="{{ prevHref }}" class="nav-button">Prev</a>
+    <img width="400" height="400" src="{{ imgSrc }}" alt="{{ name }}" />
+    <p>Quantity: {{ quantity }}</p>
     <a href="{{ nextHref }}" class="nav-button">Next</a>
   </div>
   <form method="POST" action="/list/{{listId}}/{{id}}/delete">
