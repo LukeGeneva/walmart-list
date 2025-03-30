@@ -3,18 +3,20 @@
   <h1 class="text-blue-500 font-bold text-2xl">Aisle {{ aisle }}</h1>
   <h2 class="font-bold text-xl text-center">{{ name }}</h2>
   <div class="flex justify-center items-center">
-    <a class="nav-button" href="{{ prevHref }}">&lt;</a>
-    <img width="400" height="400" src="{{ imgSrc }}" alt="{{ name }}" />
-    <a class="nav-button" href="{{ nextHref }}">&gt;</a>
+    <img width="200" src="{{ imgSrc }}" alt="{{ name }}" />
   </div>
   <p>Quantity: {{ quantity }}</p>
-  <form method="POST" action="/list/{{listId}}/{{id}}/delete">
-    <button
-      class="py-4 px-10 bg-green-500 text-white text-xl font-bold rounded-sm"
-      type="submit"
-    >
-      Got it!
-    </button>
-  </form>
+  <div class="flex gap-2 justify-center">
+    <a class="nav-button" href="{{ prevHref }}">&lt;</a>
+    <form method="POST" action="/list/{{listId}}/{{id}}/delete">
+      <button
+        class="py-4 px-10 bg-green-500 text-white text-xl font-bold rounded-sm"
+        type="submit"
+      >
+        Got it!
+      </button>
+    </form>
+    <a class="nav-button" href="{{ nextHref }}">&gt;</a>
+  </div>
 </div>
 {{ /layout.html }}
