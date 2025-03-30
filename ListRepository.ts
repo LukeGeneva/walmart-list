@@ -1,6 +1,6 @@
 import { Database } from 'bun:sqlite';
 import { Item } from './Item';
-import { INSERT_ITEM, SELECT_LIST } from './sql';
+import { DELETE_ITEM, DELETE_LIST, INSERT_ITEM, SELECT_LIST } from './sql';
 
 type RawItem = {
   id: string;
@@ -32,6 +32,18 @@ export class ListRepository {
     const args = { $listId: listId };
     const list = this.db.query(SELECT_LIST).all(args) as RawItem[];
     return list.map(toItem);
+  };
+
+  delete = (listId: string) => {
+    const args = { $listId: listId };
+    const query = this.db.query(DELETE_LIST);
+    query.run(args);
+  };
+
+  deleteItem = (itemId: string) => {
+    const args = { $id: itemId };
+    const query = this.db.query(DELETE_ITEM);
+    query.run(args);
   };
 }
 

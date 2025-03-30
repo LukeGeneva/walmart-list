@@ -31,3 +31,11 @@ SELECT * FROM item
 WHERE listId = $listId 
 ORDER BY aisle;
 `;
+
+export const DELETE_LIST = `
+DELETE FROM item WHERE listId = $listId;
+`;
+
+export const DELETE_ITEM = `
+DELETE FROM item WHERE id = $id;
+`;

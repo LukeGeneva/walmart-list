@@ -1,6 +1,11 @@
 import path from 'path';
 import { INIT_SQL, SELECT_LIST } from './sql';
-import { db, viewListItem, addItemToList } from './composition-root';
+import {
+  db,
+  viewListItem,
+  addItemToList,
+  deleteItem,
+} from './composition-root';
 import { presentItem } from './view-item-presenter';
 
 const port = Number.parseInt(process.env.WALMART_LIST_PORT ?? '3000', 10);
@@ -14,13 +19,24 @@ Bun.serve({
     '/health': () => {
       return new Response(null, { status: 200 });
     },
-    '/list/:id': async (req) => {
-      const list = db
-        .query(SELECT_LIST)
-        .all({ $listId: req.params.id }) as any[];
-      const firstItem = list[0];
-      const url = `/list/${firstItem.listId}/${firstItem.id}`;
-      return Response.redirect(url);
+    '/list/:id': {
+      GET: async (req) => {
+        const list = db
+          .query(SELECT_LIST)
+          .all({ $listId: req.params.id }) as any[];
+        const firstItem = list[0];
+        const url = `/list/${firstItem.listId}/${firstItem.id}`;
+        return Response.redirect(url);
+      },
+    },
+    '/list/:listId/:itemId/delete': {
+      POST: async (req) => {
+        const { itemId, listId } = req.params;
+        if (!itemId) return new Response('Expected itemId', { status: 400 });
+
+        deleteItem.execute({ itemId });
+        return Response.redirect(`/list/${listId}`);
+      },
     },
     '/list/:listId/:itemId': async (req) => {
       const { listId, itemId } = req.params;

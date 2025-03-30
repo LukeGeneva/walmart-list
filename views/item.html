@@ -1,21 +1,15 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Shopping List</title>
-    <link rel="stylesheet" href="/styles.css" />
-  </head>
-  <body>
-    <div class="container">
-      <div class="aisle">Aisle {{ aisle }}</div>
-      <h1 class="product-name">{{ name }}</h1>
-      <img class="product-image" src="{{ imgSrc }}" alt="{{ name }}" />
-      <div class="quantity">Quantity: {{ quantity }}</div>
-      <div class="navigation">
-        <a href="{{ prevHref }}" class="nav-button">Previous</a>
-        <a href="{{ nextHref }}" class="nav-button">Next</a>
-      </div>
-    </div>
-  </body>
-</html>
+{{ import layout.html }}
+<div class="container">
+  <div class="aisle">Aisle {{ aisle }}</div>
+  <h1 class="product-name">{{ name }}</h1>
+  <img class="product-image" src="{{ imgSrc }}" alt="{{ name }}" />
+  <div class="quantity">Quantity: {{ quantity }}</div>
+  <div class="navigation">
+    <a href="{{ prevHref }}" class="nav-button">Prev</a>
+    <a href="{{ nextHref }}" class="nav-button">Next</a>
+  </div>
+  <form method="POST" action="/list/{{listId}}/{{id}}/delete">
+    <button type="submit">Got it!</button>
+  </form>
+</div>
+{{ /layout.html }}
