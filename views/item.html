@@ -1,15 +1,17 @@
 {{ import layout.html }}
 <div class="h-full flex flex-col gap-4 justify-center items-center">
-  <h1>Aisle {{ aisle }}</h1>
-  <h2>{{ name }}</h2>
+  <h1 class="text-blue-500 font-bold text-2xl">Aisle {{ aisle }}</h1>
+  <h2 class="font-bold text-xl text-center">{{ name }}</h2>
   <div class="flex justify-center items-center">
-    <a href="{{ prevHref }}" class="nav-button">Prev</a>
+    <a class="nav-button" href="{{ prevHref }}">&lt;</a>
     <img width="400" height="400" src="{{ imgSrc }}" alt="{{ name }}" />
-    <p>Quantity: {{ quantity }}</p>
-    <a href="{{ nextHref }}" class="nav-button">Next</a>
+    <a class="nav-button" href="{{ nextHref }}">&gt;</a>
   </div>
+  <p>Quantity: {{ quantity }}</p>
   <form method="POST" action="/list/{{listId}}/{{id}}/delete">
-    <button type="submit">Got it!</button>
+    <button class="py-4 px-10 bg-green-500 text-white" type="submit">
+      Got it!
+    </button>
   </form>
 </div>
 {{ /layout.html }}

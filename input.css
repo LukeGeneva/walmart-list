@@ -1,1 +1,5 @@
 @import 'tailwindcss';
+
+.nav-button {
+    @apply px-4 py-10 bg-blue-500 text-white font-bold text-xl;
+}
