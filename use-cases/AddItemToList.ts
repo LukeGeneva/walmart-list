@@ -22,6 +22,7 @@ export class AddItemToList {
     console.log('QUANTITY', input.quantity);
     const item = new Item();
     item.listId = input.listId ?? newId();
+    item.name = input.name;
     item.aisle = input.aisle;
     item.quantity = input.quantity;
     item.imgSrc = input.imgSrc;
