@@ -7,6 +7,7 @@ import {
   deleteItem,
 } from './composition-root';
 import { presentItem } from './view-item-presenter';
+import { dispense } from 'nutrimatic-html-dispenser';
 
 const port = Number.parseInt(process.env.WALMART_LIST_PORT ?? '3000', 10);
 const styles = path.join(import.meta.dir, 'public/styles.css');
@@ -22,6 +23,12 @@ Bun.serve({
           .query(SELECT_LIST)
           .all({ $listId: req.params.id }) as any[];
         const firstItem = list[0];
+        if (!firstItem) {
+          const view = path.join(import.meta.dir, 'views/finished.html');
+          return new Response(dispense(view, {}), {
+            headers: { 'Content-Type': 'text/html' },
+          });
+        }
         const url = `/list/${firstItem.listId}/${firstItem.id}`;
         return Response.redirect(url);
       },

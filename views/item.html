@@ -5,9 +5,9 @@
   <div class="flex justify-center items-center">
     <img width="200" src="{{ imgSrc }}" alt="{{ name }}" />
   </div>
-  <p>Quantity: {{ quantity }}</p>
+  <p class="font-bold text-lg">{{ showQuantity ? x{{ quantity }} : &nbsp; }}</p>
   <div class="flex gap-2 justify-center">
-    <a class="nav-button" href="{{ prevHref }}">&lt;</a>
+    {{ showNav ? <a class="nav-button" href="{{ prevHref }}">&lt;</a> : }}
     <form method="POST" action="/list/{{listId}}/{{id}}/delete">
       <button
         class="py-4 px-10 bg-green-500 text-white text-xl font-bold rounded-sm"
@@ -16,7 +16,7 @@
         Got it!
       </button>
     </form>
-    <a class="nav-button" href="{{ nextHref }}">&gt;</a>
+    {{ showNav ? <a class="nav-button" href="{{ nextHref }}">&gt;</a> : }}
   </div>
 </div>
 {{ /layout.html }}
