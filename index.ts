@@ -45,6 +45,8 @@ Bun.serve({
     '/list/:listId/:itemId': async (req) => {
       const { listId, itemId } = req.params;
       const output = viewListItem.execute({ listId, itemId });
+      if (!output.item) return Response.redirect(`/list/${listId}`);
+
       const html = presentItem(output);
       return new Response(html, { headers: { 'Content-Type': 'text/html' } });
     },

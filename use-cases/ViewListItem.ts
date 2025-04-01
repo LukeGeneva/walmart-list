@@ -14,7 +14,7 @@ export type ViewListItemOutput = {
     aisle: string;
     quantity: number;
     imgSrc: string;
-  };
+  } | null;
   prevItemId: string;
   nextItemId: string;
 };
@@ -26,8 +26,7 @@ export class ViewListItem {
     const list = this.listRepository.findListById(listId);
     const unpickedItems = list.filter((item) => !item.isPicked);
     const itemIndex = unpickedItems.findIndex((item) => item.id === itemId);
-    if (itemIndex === -1)
-      throw new Error(`No item with ID ${itemId} found in list ${listId}.`);
+    if (itemIndex === -1) return { item: null, prevItemId: '', nextItemId: '' };
 
     const prevIndex = getPrevIndex(itemIndex, unpickedItems.length);
     const nextIndex = getNextIndex(itemIndex, unpickedItems.length);
